@@ -19,5 +19,6 @@ Setup scripts for creating attacker VM templates in Proxmox.
    - At the end, select the option to run sysprep but DO NOT select the option to shutdown after installation
 7. Run the setup script in PowerShell: `Set-ExecutionPolicy Bypass && .\windows-setup.ps1`
 8. `mov cloudbase-init/* "C:\Program Files\Cloudbase Solutions\Cloudbase-Init"`
-9. `mov shortcuts/* "C:\Users\Public\Desktop"`
-10. Shutdown and create template
+   - You may need to change the DNS server in [DNS.bat](windows/cloudbase-init/LocalScripts/DNS.bat)
+10. `mov shortcuts/* "C:\Users\Public\Desktop"`
+11. Shutdown and create template
