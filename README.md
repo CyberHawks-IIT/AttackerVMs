@@ -14,12 +14,13 @@ Note: When adding a cloud-init drive to your Windows VM, use SCSI. There's a kno
 1. Install base OS
 2. Check for updates and install all updates - may need to be done multiple times
 3. Permanently disable Windows Defender: Start > gpedit.msc > Computer Configuration > Administrative Templates > Windows Components > Microsoft Defender Antivirus - set "Turn off Windows Defender" to Enabled
-4. Reboot
-5. Download contents of [windows](windows/) directory
-6. Download cloudbase-init from [here](https://cloudbase.it/downloads/CloudbaseInitSetup_x64.msi), and go through prompts
+4. Install VirtIO drivers and QEMU guest agent (optional): see [this link](https://pve.proxmox.com/wiki/Windows_VirtIO_Drivers) and follow steps under Installation > Using the ISO > Wizard Installation
+5. Reboot
+6. Download contents of [windows](windows/) directory
+7. Download cloudbase-init from [here](https://cloudbase.it/downloads/CloudbaseInitSetup_x64.msi), and go through prompts
    - At the end, select the option to run sysprep but DO NOT select the option to shutdown after installation
-7. Run the [setup script](windows/windows-setup.ps1) in PowerShell: `Set-ExecutionPolicy Bypass && .\windows-setup.ps1`
-8. `mov cloudbase-init/* "C:\Program Files\Cloudbase Solutions\Cloudbase-Init"`
+8. Run the [setup script](windows/windows-setup.ps1) in PowerShell: `Set-ExecutionPolicy Bypass && .\windows-setup.ps1`
+9. `mov cloudbase-init/* "C:\Program Files\Cloudbase Solutions\Cloudbase-Init"`
    - You may need to change the DNS server in [DNS.bat](windows/cloudbase-init/LocalScripts/DNS.bat)
 10. `mov shortcuts/* "C:\Users\Public\Desktop"`
 11. Shutdown and create template
