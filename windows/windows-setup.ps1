@@ -63,4 +63,6 @@ Start-Process -FilePath "msiexec.exe" -ArgumentList "/i", "$env:USERPROFILE\Down
 Remove-Item -Path "$env:USERPROFILE\Downloads\MobaXterm.zip" -Force
 Remove-Item -Path "$env:USERPROFILE\Downloads\MobaXterm" -Recurse -Force
 
+Set-Service -Name cloudbase-init -StartupType Automatic
+
 echo "Installation complete!"
