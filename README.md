@@ -10,6 +10,7 @@ Setup scripts for creating attacker VM templates in Proxmox.
 6. Shutdown and create template
 
 ## Windows Server 2022
+Note: When adding a cloud-init drive to your Windows VM, use SCSI. There's a known issue with IDE where ID 0 conflicts with 1 and 2 conflicts with 3, and you're probably already using 0 and 2.
 1. Install base OS
 2. Check for updates and install all updates - may need to be done multiple times
 3. Permanently disable Windows Defender: Start > gpedit.msc > Computer Configuration > Administrative Templates > Windows Components > Microsoft Defender Antivirus - set "Turn off Windows Defender" to Enabled
