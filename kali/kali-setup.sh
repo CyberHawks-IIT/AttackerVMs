@@ -17,7 +17,7 @@ sudo apt -y update
 sudo apt -y upgrade
 
 # Software (APT) packages
-sudo apt -y install sublime-text krb5-user freerdp2-x11 rdate testssl.sh ipmitool python3-venv nfs-client mitm6 git seclists enum4linux-ng pipx golang rsyslog
+sudo apt -y install sublime-text krb5-user freerdp2-x11 rdate testssl.sh ipmitool python3-venv nfs-client mitm6 git seclists enum4linux-ng pipx golang rsyslog cloud-init qemu-guest-agent
 
 # Switch default Python to Python 3 (required for some tools like PetitPotam)
 sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
@@ -89,6 +89,13 @@ sudo sh -c "echo 'local6.*    /var/log/commands.log' >> /etc/rsyslog.d/commands.
 echo 'precmd() { eval RETRN_VAL=$?;logger -p local6.debug "$(whoami) [$$]: $(history | tail -n1 | sed "s/^[ ]*[0-9]\+[ ]*//" ) [$RETRN_VAL]" }' >> $HOME/.zshrc
 echo 'precmd() { eval RETRN_VAL=$?;logger -p local6.debug "$(whoami) [$$]: $(history | tail -n1 | sed "s/^[ ]*[0-9]\+[ ]*//" ) [$RETRN_VAL]" }' | sudo tee -a /root/.zshrc
 sudo systemctl restart rsyslog
+
+# Prepare template for cloning
+sudo truncate -s 0 /etc/machine-id
+sudo rm /var/lib/dbus/etc-machineid
+sudo ln -s /etc/machine-id /var/lib/dbus/etc-machineid
+sudo rm /etc/ssh/ssh_host_*
+sudo systemctl enable cloud-init
 
 . $HOME/.zshrc
 echo "Installation complete!"
