@@ -1,0 +1,1 @@
+netsh interface ip set dns "Ethernet Interface 0" static 172.16.70.1
