@@ -17,7 +17,7 @@ Setup scripts for creating attacker VM templates in Proxmox.
 5. Download contents of [windows](windows/) directory
 6. Download cloudbase-init from [here](https://cloudbase.it/downloads/CloudbaseInitSetup_x64.msi), and go through prompts
    - At the end, select the option to run sysprep but DO NOT select the option to shutdown after installation
-7. Run the setup script in PowerShell: `Set-ExecutionPolicy Bypass && .\windows-teup.ps1`
+7. Run the setup script in PowerShell: `Set-ExecutionPolicy Bypass && .\windows-setup.ps1`
 8. `mov cloudbase-init/* "C:\Program Files\Cloudbase Solutions\Cloudbase-Init"`
 9. `mov shortcuts/* "C:\Users\Public\Desktop"`
 10. Shutdown and create template
