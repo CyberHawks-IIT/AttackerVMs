@@ -5,7 +5,7 @@ Setup scripts for creating attacker VM templates in Proxmox.
 1. Install base OS
 2. Download contents of [kali](kali/) directory
 3. Run the setup script: `chmod +x kali-setup.sh && ./kali-setup.sh`
-4. Set up Kerberos file for GOAD: `sudo mv krb5.conf /etc/krb5.conf`
+4. Set up Kerberos file for [GOAD](https://orange-cyberdefense.github.io/GOAD/) (optional): `sudo mv krb5.conf /etc/krb5.conf`
 5. Clear logs (optional): `sudo rm -f ~/.zsh_history /root/.zsh_history /var/log/* && sudo find /var/log -type f -exec rm -f {} \;`
 6. Shutdown and create template
 
