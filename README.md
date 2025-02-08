@@ -1,4 +1,4 @@
-# AttackerVMs
+# Attacker VMs
 Setup scripts for creating attacker VM templates in Proxmox.
 
 ## Kali Linux
