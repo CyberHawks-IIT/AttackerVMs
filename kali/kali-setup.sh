@@ -1,5 +1,9 @@
 #!/bin/zsh
 
+# Sudo without password
+echo '%sudo ALL=(ALL:ALL) NOPASSWD: ALL' | sudo tee /etc/sudoers.d/99_sudo_group_nopasswd
+sudo chmod 440 /etc/sudoers.d/99_sudo_group_nopasswd
+
 # Create directories
 mkdir $HOME/test
 mkdir $HOME/tools
@@ -17,7 +21,7 @@ sudo apt -y update
 sudo apt -y upgrade
 
 # Software (APT) packages
-sudo apt -y install sublime-text krb5-user freerdp3-x11 rdate testssl.sh ipmitool python3-venv nfs-client mitm6 git seclists enum4linux-ng pipx golang rsyslog cloud-init qemu-guest-agent
+sudo apt -y install sublime-text magic-wormhole krb5-user freerdp3-x11 rdate testssl.sh ipmitool python3-venv nfs-client mitm6 git seclists enum4linux-ng pipx golang rsyslog cloud-init qemu-guest-agent
 
 # Switch default Python to Python 3 (required for some tools like PetitPotam)
 sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
