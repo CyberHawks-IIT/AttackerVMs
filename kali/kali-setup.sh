@@ -96,7 +96,7 @@ sudo systemctl restart rsyslog
 
 # Prepare template for cloning
 sudo truncate -s 0 /etc/machine-id
-sudo rm /var/lib/dbus/etc-machineid
+sudo rm /var/lib/dbus/machine-id
 sudo ln -s /etc/machine-id /var/lib/dbus/machine-id
 sudo rm /etc/ssh/ssh_host_*
 sudo systemctl enable cloud-init
