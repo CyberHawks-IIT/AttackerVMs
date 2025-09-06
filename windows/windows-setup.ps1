@@ -41,6 +41,11 @@ $WebClient.DownloadFile("https://github.com/notepad-plus-plus/notepad-plus-plus/
 Start-Process -FilePath "$env:USERPROFILE\Downloads\npp.exe" -ArgumentList "/S" -Wait
 Remove-Item -Path "$env:USERPROFILE\Downloads\npp.exe" -Force
 
+# Remove Notepad++ user app, which does not behave well with Sysprep
+Get-AppxPackage -AllUsers *Notepad* | ForEach-Object {
+  try { Remove-AppxPackage -Package $_.PackageFullName -AllUsers -ErrorAction Stop } catch { $_ }
+}
+
 # Install Python
 echo "Installing Python 3"
 $WebClient.DownloadFile("https://www.python.org/ftp/python/3.13.7/python-3.13.7-amd64.exe", "$env:USERPROFILE\Downloads\python.exe")
@@ -67,3 +72,4 @@ Set-Service -Name cloudbase-init -StartupType Automatic
 
 
 echo "Installation complete!"
+
