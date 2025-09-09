@@ -25,7 +25,7 @@ Note: There's a known issue with IDE where ID 0 conflicts with 1 and 2 conflicts
    - Newer versions of PingCastle need to be downloaded manually from [here](https://www.netwrix.com/active-directory-risk-assessment.html)
    - Some links in the setup script are dated, and I like to manually install additional software. View the full list of software below.
 9. `move cloudbase-init/* "C:\Program Files\Cloudbase Solutions\Cloudbase-Init"`
-   - You may need to change the DNS server in [DNS.bat](windows/cloudbase-init/LocalScripts/DNS.bat)
+   - You may need to change the DNS server and suffix in [DNS.bat](windows/cloudbase-init/LocalScripts/DNS.bat)
 10. `move shortcuts/* "C:\Users\Public\Desktop"`
 11. Shutdown and create template
 
