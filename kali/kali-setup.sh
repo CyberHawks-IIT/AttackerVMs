@@ -21,24 +21,33 @@ sudo apt -y update
 sudo apt -y upgrade
 
 # Software (APT) packages
-sudo apt -y install sublime-text magic-wormhole krb5-user freerdp3-x11 rdate testssl.sh ipmitool python3-venv nfs-client mitm6 git seclists enum4linux-ng pipx golang rsyslog cloud-init qemu-guest-agent
+sudo apt -y install sublime-text magic-wormhole krb5-user freerdp3-x11 rdate testssl.sh ipmitool python3-venv nfs-client mitm6 git seclists enum4linux-ng pipx rsyslog cloud-init qemu-guest-agent
 
 # Switch default Python to Python 3 (required for some tools like PetitPotam)
 sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 
+# Install Go (official release, not apt's golang-go, which lags too far behind for some tools to build/run)
+GO_VERSION=$(curl -sL https://go.dev/VERSION?m=text | head -n1)
+wget -qO /tmp/go.tar.gz "https://go.dev/dl/${GO_VERSION}.linux-amd64.tar.gz" --no-check-certificate
+sudo rm -rf /usr/local/go
+sudo tar -C /usr/local -xzf /tmp/go.tar.gz
+rm /tmp/go.tar.gz
+
 # Fix path to include pipx and go directories
-echo 'PATH=$HOME/.local/bin:$HOME/go/bin:$PATH' >> $HOME/.zshrc;. $HOME/.zshrc
+echo 'PATH=$HOME/.local/bin:/usr/local/go/bin:$HOME/go/bin:$PATH' >> $HOME/.zshrc;. $HOME/.zshrc
 
 # Python packages
 pip3 install --upgrade pip --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org--trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org
 pipx ensurepath
 PIP_NO_VERIFY="true" pipx install git+https://github.com/Pennyw0rth/NetExec
 PIP_NO_VERIFY="true" pipx install git+https://github.com/garrettfoster13/pre2k
+PIP_NO_VERIFY="true" pipx install git+https://github.com/garrettfoster13/sccmhunter
 PIP_NO_VERIFY="true" pipx install impacket certipy-ad modbus_cli
 PIP_NO_VERIFY="true" pipx inject impacket pyOpenSSL==24.0.0 --force # fix for ntlmrelayx.py --shadowcredentials
 
 # Go modules
 go install github.com/sensepost/gowitness@latest
+go install -ldflags="-s -w" -trimpath "github.com/FalconOpsLLC/goexec@latest"
 
 # Ruby gems
 echo ":ssl_verify_mode: 0" | sudo tee -a /root/.gemrc
