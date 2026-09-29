@@ -36,9 +36,7 @@ want attacker boxes.
    above.
 2. **Install all Windows Updates.** Check more than once. New updates often
    appear after the first round installs and reboots.
-3. **[Attacker only] Set local group policy** (Start, then `gpedit.msc`). The
-   range templates skip this. Ansible turns Defender off on the range hosts
-   later, and the range templates stay vanilla.
+3. **[Attacker only] Set local group policy** (Start, then `gpedit.msc`).
    - **Turn off Windows Defender.** Under Computer Configuration, Administrative
      Templates, Windows Components, Microsoft Defender Antivirus, set "Turn off
      Windows Defender" to Enabled.
