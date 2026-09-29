@@ -1,4 +1,4 @@
-# Attacker VMs
+# VM Templates
 
 Scripts and guides for building the base VMs and containers the CyberHawks lab
 runs on. Everything else in the project clones or configures what this repo
