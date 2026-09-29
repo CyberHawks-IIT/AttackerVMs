@@ -32,6 +32,15 @@ want attacker boxes.
 > conflict (0 with 1, and 2 with 3). When you add a cloud-init drive to the VM,
 > either remove the other IDE drives or attach the cloud-init drive as SCSI.
 
+> **Windows 11 template only (workstation).** Turn Tamper Protection off in this
+> template: Windows Security, then Virus & threat protection, then Manage
+> settings, then set Tamper Protection to Off. This is required because the range
+> disables Defender on workstation, and Tamper Protection blocks that. Tamper
+> Protection can't be turned off by script (the setting is protected even for
+> SYSTEM), so it has to be done here, once, in the template. Leave Defender
+> itself on. Ansible turns Defender off on workstation after cloning. Every other
+> template keeps Defender fully on and skips this.
+
 1. **Create the VM and install the OS.** Use the Windows version from the table
    above.
 2. **Install all Windows Updates.** Check more than once. New updates often
