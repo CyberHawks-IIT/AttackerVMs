@@ -1,6 +1,30 @@
 # Attacker VMs
 Setup scripts for creating attacker VM templates in Proxmox.
 
+## What this builds and where it's used
+
+This repo turns a freshly-installed base OS into a **reusable Proxmox template**.
+Two kinds:
+
+- **Kali Linux** and **Windows Server 2025** attacker templates — the offensive
+  toolkit students clone to attack the range. cyber-range's
+  [`create_testing_vms.sh`](https://github.com/CyberHawks-IIT/cyber-range/blob/main/scripts/create_testing_vms.sh)
+  clones these per student.
+- The **Windows Server / Windows 11 base templates** that the vulnerable range
+  itself is cloned from (dc1/dc2/ca/web/sql1/sql2/workstation) — build these the
+  same way (base OS + cloudbase-init), minus the offensive tooling.
+
+Part of the [CyberHawks](https://github.com/CyberHawks-IIT) project:
+[cyber-range](https://github.com/CyberHawks-IIT/cyber-range) (the AD range —
+**start there** for the full [setup guides](https://github.com/CyberHawks-IIT/cyber-range/blob/main/docs/setup/README.md)),
+[defense-tooling](https://github.com/CyberHawks-IIT/defense-tooling) (Splunk +
+Zeek), [splunk-detections](https://github.com/CyberHawks-IIT/splunk-detections)
+(detections). Each stands alone.
+
+> **Tip:** note the VMID of each template you build — the range's
+> `create_range_vms.sh` and the per-student `create_testing_vms.sh` take those
+> VMIDs as inputs (`--tmpl-2016`, `--templates`, etc.).
+
 ## Kali Linux
 1. Install base OS
 2. Download contents of [kali](kali/) directory
