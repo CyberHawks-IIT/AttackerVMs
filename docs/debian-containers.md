@@ -114,6 +114,6 @@ return `uid=0(root)`.
 
 The containers are ready. Install the software from
 [defense-tooling](https://github.com/CyberHawks-IIT/defense-tooling), following
-its [setup guide](https://github.com/CyberHawks-IIT/cyber-range/blob/main/docs/setup/range-with-monitoring.md).
+its [setup guide](https://github.com/CyberHawks-IIT/cyber-range/blob/master/docs/setup/range-with-monitoring.md).
 It installs Splunk on `510`, Zeek on `511`, brings up the capture interface, and
 wires the traffic mirror.

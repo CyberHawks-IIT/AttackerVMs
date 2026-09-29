@@ -28,8 +28,8 @@ creates.
 ## Part of a bigger project
 
 This sits alongside [cyber-range](https://github.com/CyberHawks-IIT/cyber-range)
-(the AD range, and where you **start** for the full
-[setup guides](https://github.com/CyberHawks-IIT/cyber-range/blob/main/docs/setup/README.md)),
+(the vulnerable range, and where you **start** for the full
+[setup guides](https://github.com/CyberHawks-IIT/cyber-range/blob/master/docs/setup/README.md)),
 [defense-tooling](https://github.com/CyberHawks-IIT/defense-tooling) (the Splunk
 and Zeek stack), and
 [splunk-detections](https://github.com/CyberHawks-IIT/splunk-detections) (the
