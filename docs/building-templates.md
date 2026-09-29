@@ -36,13 +36,15 @@ want attacker boxes.
    above.
 2. **Install all Windows Updates.** Check more than once. New updates often
    appear after the first round installs and reboots.
-3. **Set local group policy** (Start, then `gpedit.msc`):
-   - Turn off Windows Defender. Computer Configuration > Administrative Templates
-     > Windows Components > Microsoft Defender Antivirus. Set "Turn off Windows
-     Defender" to Enabled.
-   - Stop Server Manager from opening on login. Computer Configuration >
-     Administrative Templates > System > Server Manager. Set "Do not display
-     Server Manager automatically at logon" to Enabled.
+3. **[Attacker only] Set local group policy** (Start, then `gpedit.msc`). The
+   range templates skip this. Ansible turns Defender off on the range hosts
+   later, and the range templates stay vanilla.
+   - **Turn off Windows Defender.** Under Computer Configuration, Administrative
+     Templates, Windows Components, Microsoft Defender Antivirus, set "Turn off
+     Windows Defender" to Enabled.
+   - **Stop Server Manager opening on login.** Under Computer Configuration,
+     Administrative Templates, System, Server Manager, set "Do not display Server
+     Manager automatically at logon" to Enabled.
 4. **Install VirtIO drivers and the QEMU guest agent** (optional but
    recommended). See the [Proxmox VirtIO guide](https://pve.proxmox.com/wiki/Windows_VirtIO_Drivers)
    and follow Installation > Using the ISO > Wizard Installation.
