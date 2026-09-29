@@ -32,15 +32,6 @@ want attacker boxes.
 > conflict (0 with 1, and 2 with 3). When you add a cloud-init drive to the VM,
 > either remove the other IDE drives or attach the cloud-init drive as SCSI.
 
-> **Windows 11 template only (workstation).** Turn Tamper Protection off in this
-> template: Windows Security, then Virus & threat protection, then Manage
-> settings, then set Tamper Protection to Off. This is required because the range
-> disables Defender on workstation, and Tamper Protection blocks that. Tamper
-> Protection can't be turned off by script (the setting is protected even for
-> SYSTEM), so it has to be done here, once, in the template. Leave Defender
-> itself on. Ansible turns Defender off on workstation after cloning. Every other
-> template keeps Defender fully on and skips this.
-
 1. **Create the VM and install the OS.** Use the Windows version from the table
    above.
 2. **Install all Windows Updates.** Check more than once. New updates often
@@ -52,29 +43,60 @@ want attacker boxes.
    - **Stop Server Manager opening on login.** Under Computer Configuration,
      Administrative Templates, System, Server Manager, set "Do not display Server
      Manager automatically at logon" to Enabled.
-4. **Install VirtIO drivers and the QEMU guest agent** (optional but
-   recommended). See the [Proxmox VirtIO guide](https://pve.proxmox.com/wiki/Windows_VirtIO_Drivers)
-   and follow Installation > Using the ISO > Wizard Installation.
-5. **Reboot.**
-6. **Download the contents of the [windows](../windows/) directory** onto the VM.
-7. **Install cloudbase-init** from
+4. **[Windows 11 only] Turn off Tamper Protection.** Open Windows Security, then
+   Virus & threat protection, then Manage settings, and set Tamper Protection to
+   Off. The range disables Defender on workstation, and Tamper Protection blocks
+   that. It can't be turned off by script (the setting is protected even for
+   SYSTEM), so it has to be done here, once. Leave Defender itself on. Ansible
+   turns it off on workstation after cloning. Every other template keeps Defender
+   on and skips this step.
+5. **Install the VirtIO drivers and the QEMU guest agent.** In Proxmox, attach
+   the VirtIO driver ISO to the VM: add a CD/DVD drive and select
+   `virtio-win.iso` (download it per the
+   [Proxmox VirtIO guide](https://pve.proxmox.com/wiki/Windows_VirtIO_Drivers) if
+   the host doesn't already have it). Then, in Windows, open the mounted ISO
+   drive (usually `D:` or `E:`) and:
+   - Double-click **`virtio-win-guest-tools.exe`** and click through the
+     installer. This installs all the VirtIO drivers and the QEMU guest agent
+     together.
+   - To install them separately instead, run **`virtio-win-gt-x64.msi`** for the
+     drivers and **`guest-agent\qemu-ga-x86_64.msi`** for the guest agent.
+
+   Afterward, confirm the **QEMU Guest Agent** service is running (`services.msc`).
+6. **Reboot.**
+7. **Download the contents of the [windows](../windows/) directory** onto the VM.
+8. **Install cloudbase-init** from
    [cloudbase.it](https://cloudbase.it/downloads/CloudbaseInitSetup_x64.msi) and
    go through the prompts. At the end, choose to run sysprep, but **do not**
    choose to shut down after installation.
-8. **[Attacker only] Install the offensive tooling.** In PowerShell, run the
+9. **[Attacker only] Install the offensive tooling.** In PowerShell, run the
    [setup script](../windows/windows-setup.ps1):
    `Set-ExecutionPolicy Bypass && .\windows-setup.ps1`. Notes:
    - Newer versions of PingCastle must be downloaded by hand from
      [Netwrix](https://www.netwrix.com/active-directory-risk-assessment.html).
    - Some links in the script are dated. See the [software list](#attacker-software-list)
      at the bottom for what should end up installed, and add any extras by hand.
-9. **Place the cloudbase-init config.** Run
-   `move cloudbase-init/* "C:\Program Files\Cloudbase Solutions\Cloudbase-Init"`.
-   You may need to change the DNS server and suffix in
-   [DNS.bat](../windows/cloudbase-init/LocalScripts/DNS.bat).
-10. **[Attacker only] Place the desktop shortcuts.** Run
+10. **Place the cloudbase-init config.** Run
+    `move cloudbase-init/* "C:\Program Files\Cloudbase Solutions\Cloudbase-Init"`.
+11. **Set the DNS server manually.** cloudbase-init can't read the DNS server
+    from Proxmox's cloud-init drive, so clones come up without one. The simplest
+    fix is to assume every clone from this template uses the same DNS server and
+    set it here, once, before templating. For the range templates that's the
+    gateway, `10.0.2.1`. In an administrator command prompt:
+
+    ```
+    netsh interface ip set dns "Ethernet Interface 0" static 10.0.2.1
+    netsh interface ip set dns "Ethernet Interface 0" suffix cyberhawks.lab
+    ```
+
+    Use the DNS server for whatever network the template's clones live on (for
+    example `192.168.1.1` for the attacker template). If the adapter isn't named
+    `Ethernet Interface 0`, list the names with `netsh interface show interface`.
+    The range's Ansible sets each host's final DNS later, so this is just a
+    working baseline for first boot.
+12. **[Attacker only] Place the desktop shortcuts.** Run
     `move shortcuts/* "C:\Users\Public\Desktop"`.
-11. **Shut down and convert to a template** (see [below](#convert-to-a-template)).
+13. **Shut down and convert to a template** (see [below](#convert-to-a-template)).
 
 ## Kali template (attacker)
 
