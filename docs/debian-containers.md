@@ -36,7 +36,7 @@ pveam download local debian-12-standard_12.7-1_amd64.tar.zst   # use the current
 ```bash
 pct create 510 local:vztmpl/debian-12-standard_12.7-1_amd64.tar.zst \
   --hostname splunk \
-  --cores 2 --memory 4096 --swap 512 \
+  --cores 4 --memory 4096 --swap 512 \
   --rootfs local-zfs:32 \
   --net0 name=eth0,bridge=defense,firewall=1,ip=10.0.10.2/24,gw=10.0.10.1 \
   --nameserver 10.0.10.1 \
@@ -45,8 +45,11 @@ pct create 510 local:vztmpl/debian-12-standard_12.7-1_amd64.tar.zst \
   --start 1
 ```
 
-Size `--rootfs`, `--cores`, and `--memory` for how much data you'll retain. 32 GB
-is fine for a lab on Splunk's free tier (500 MB/day). Then set up the admin
+Size `--rootfs` and `--memory` for how much data you'll retain. 32 GB is fine
+for a lab on Splunk's free tier (500 MB/day). Give it at least 4 cores. Splunk
+caps concurrent scheduled searches by core count, and with 1 core it could run
+only 3 at once, so it skipped some of the detections that run every minute.
+Then set up the admin
 account defense-tooling connects as (see [step 3](#3-give-both-containers-your-ssh-key-and-a-sudo-user)).
 
 **Check:** `pct config 510` shows `unprivileged: 1`, and `pct exec 510 -- ip a`
